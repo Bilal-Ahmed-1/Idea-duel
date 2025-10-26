@@ -20,8 +20,8 @@ COPY . .
 # Install dependencies
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
-# Copy env if not exists (will be overridden by Railway env vars)
-RUN cp .env.example .env
+# # Copy env if not exists (will be overridden by Railway env vars)
+# RUN cp .env.example .env
 
 # Laravel setup commands
 RUN php artisan config:clear && php artisan cache:clear
