@@ -15,15 +15,15 @@ RUN a2enmod rewrite
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
 # Copy app code
-COPY . .
+COPY . /var/www/html
 
 # Install dependencies
 RUN composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 
-# # Copy env if not exists (will be overridden by Railway env vars)
-# RUN cp .env.example .env
+# Set the correct Apache DocumentRoot to Laravel's public folder
+RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf /etc/apache2/apache2.conf
 
-# Laravel setup commands
+# Clear caches
 RUN php artisan config:clear && php artisan cache:clear
 
 # Permissions
